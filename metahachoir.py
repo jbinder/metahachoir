@@ -19,17 +19,22 @@ from api.module.script import Script
 from api.module.module import Module
 from api.types.libtypes import Variant, VMap, Argument, typeId, vtime
 from api.vfs.libvfs import AttributesHandler
+from hachoir_parser import guessParser
+from hachoir_core.stream.input import StringInputStream
 
 class HachoirHandler(AttributesHandler):
   def __init__(self):
     AttributesHandler.__init__(self, "hachoir")
-    self.__disown__();
+    self.__disown__()
 
   def attributes(self, node):
     attr = VMap()
     attr.thisown = False
     file = node.open()
     attr["hello"] = "world"
+    parser = guessParser(StringInputStream(file.read()))
+    if not parser:
+        attr["info", "unable to read metadata"]
     return attr
 
 class MetaHachoir(Script):
@@ -39,7 +44,7 @@ class MetaHachoir(Script):
 
   def start(self, args):
     try:
-      node = args['file'].value();
+      node = args['file'].value()
       self.stateinfo = "Registering node: " + str(node.name())
       node.registerAttributes(self.handler)
     except KeyError:
@@ -52,9 +57,5 @@ class metahachoir(Module):
     self.conf.addArgument({"name": "file",
                            "description": "file for extracting metadata",
                            "input": Argument.Required|Argument.Single|typeId.Node})
-    self.conf.addConstant({"name": "mime-type", 
- 	                   "type": typeId.String,
- 	                   "description": "managed mime type",
- 	                   "values": ["doc", "docx"]})
     self.flags = ["single"]
     self.tags = "Metadata"
