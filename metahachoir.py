@@ -64,6 +64,16 @@ class MetaHachoir(Script):
     except KeyError:
       pass
 
+  @staticmethod
+  def getSupportedFileExtensions():
+    extensions = list()
+    for parser in QueryParser([]):
+      file_ext = parser.getParserTags().get("file_ext")
+      if not file_ext:
+        continue
+      extensions.extend(file_ext)
+    return list(set(extensions) - set(['']))
+
 class metahachoir(Module): 
   """This modules generate Word metadata in node attributes"""
   def __init__(self):
@@ -74,16 +84,7 @@ class metahachoir(Module):
     self.conf.addConstant({"name": "extension-type",
                            "type": typeId.String,
                            "description" : "compatible extensions",
-                           "values" : self.getSupportedFileExtensions()})
+                           "values" : MetaHachoir.getSupportedFileExtensions()})
 
     self.flags = ["single"]
     self.tags = "Metadata"
-
-  def getSupportedFileExtensions(self):
-    extensions = list()
-    for parser in QueryParser([]):
-      file_ext = parser.getParserTags().get("file_ext")
-      if not file_ext:
-        continue
-      extensions.extend(file_ext)
-    return list(set(extensions) - set(['']))
