@@ -19,6 +19,8 @@ from api.module.script import Script
 from api.module.module import Module
 from api.types.libtypes import Variant, VMap, Argument, typeId, vtime
 from api.vfs.libvfs import AttributesHandler
+from hachoir_core.error import HachoirError
+from hachoir_metadata import extractMetadata
 from hachoir_parser import guessParser
 from hachoir_core.stream.input import StringInputStream
 
@@ -31,10 +33,21 @@ class HachoirHandler(AttributesHandler):
     attr = VMap()
     attr.thisown = False
     file = node.open()
-    attr["hello"] = "world"
     parser = guessParser(StringInputStream(file.read()))
+    file.close()
     if not parser:
         attr["info", "unable to read metadata"]
+        return attr
+
+    try:
+        metadata = extractMetadata(parser)
+        for data in metadata:
+            if not(any(data.values)):
+                continue
+            attr[data.key] = "; ".join([str(val.value) for val in data.values])
+    except HachoirError, err:
+        attr["info", "error while reading metadata"]
+
     return attr
 
 class MetaHachoir(Script):
