@@ -36,7 +36,7 @@ class HachoirHandler(AttributesHandler):
     parser = guessParser(StringInputStream(file.read()))
     file.close()
     if not parser:
-        attr["info", "unable to read metadata"]
+        attr["info"] = "unable to read metadata"
         return attr
 
     try:
@@ -46,7 +46,7 @@ class HachoirHandler(AttributesHandler):
                 continue
             attr[data.key] = "; ".join([str(val.value) for val in data.values])
     except HachoirError, err:
-        attr["info", "error while reading metadata"]
+        attr["info"] = "error while reading metadata"
 
     return attr
 
