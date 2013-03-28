@@ -75,7 +75,7 @@ class MetaHachoir(Script):
     return list(set(extensions) - set(['']))
 
 class metahachoir(Module): 
-  """This modules generate Word metadata in node attributes"""
+  """This module shows metadata provided by Hachoir in node attributes"""
   def __init__(self):
     Module.__init__(self, "metahachoir", MetaHachoir)
     self.conf.addArgument({"name": "file",
