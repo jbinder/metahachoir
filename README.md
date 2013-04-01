@@ -7,7 +7,7 @@ Module for the Digital Forensics Framework (DFF) to show metadata provided by ha
 Requirements
 ------------
 
-*   Digital Forensics Framework 1.2.0 (http://www.digital-forensic.org/)
+*   Digital Forensics Framework 1.3.0 (http://www.digital-forensic.org/)
 *   python-hachoir-metadata 1.3.3 (https://bitbucket.org/haypo/hachoir/)
 
 
@@ -19,6 +19,15 @@ Install
 *   add `add_subdirectory (metahachoir)` to dff/modules/metadata/CMakeLists.txt
 *   build DFF
 
+
+History
+-------
+
+v1.0.1
+updated for DFF 1.3.0
+
+v1.0.0
+initial release for DFF 1.2.0
 
 Todo
 ----

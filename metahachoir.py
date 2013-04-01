@@ -1,5 +1,5 @@
 # DFF -- An Open Source Digital Forensics Framework
-# Copyright (C) 2012 ArxSys
+# Copyright (C) 2009-2013 ArxSys
 # 
 # This program is free software, distributed under the terms of
 # the GNU General Public License Version 2. See the LICENSE file
@@ -13,12 +13,13 @@
 # Author(s):
 #  Johannes Binder <j.binder.x@gmail.com>
 
-__dff_module_metahachoir_version__ = "1.0.0"
+__dff_module_metahachoir_version__ = "1.0.1"
 
-from api.module.script import Script 
-from api.module.module import Module
-from api.types.libtypes import Variant, VMap, Argument, typeId, vtime
-from api.vfs.libvfs import AttributesHandler
+from dff.api.module.script import Script 
+from dff.api.module.module import Module
+from dff.api.module.manager import ModuleProcessusHandler
+from dff.api.types.libtypes import Variant, VMap, Argument, typeId, vtime
+from dff.api.vfs.libvfs import AttributesHandler
 from hachoir_core.error import HachoirError
 from hachoir_metadata import extractMetadata
 from hachoir_parser import guessParser
@@ -37,7 +38,7 @@ class HachoirHandler(AttributesHandler):
     parser = guessParser(StringInputStream(file.read()))
     file.close()
     if not parser:
-      attr["info"] = "unable to read metadata"
+      attr["info"] = Variant("unable to read metadata")
       return attr
 
     try:
@@ -45,9 +46,9 @@ class HachoirHandler(AttributesHandler):
       for data in metadata:
         if not(any(data.values)):
           continue
-        attr[data.key] = "; ".join([str(val.value) for val in data.values])
+        attr[data.key] = Variant("; ".join([str(val.value) for val in data.values]))
     except HachoirError, err:
-      attr["info"] = "error while reading metadata"
+      attr["info"] = Variant("error while reading metadata")
 
     return attr
 

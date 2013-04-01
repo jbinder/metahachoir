@@ -1,6 +1,5 @@
-set(metahachoir_srcs
+install_file(
   __init__.py
   metahachoir.py
 )
 
-install_file(metahachoir ${metahachoir_srcs})
