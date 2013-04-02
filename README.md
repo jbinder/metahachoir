@@ -15,9 +15,18 @@ Install
 -------
 
 *   get the DFF source
-*   checkout metahchoir into dff/modules/metadata/
-*   add `add_subdirectory (metahachoir)` to dff/modules/metadata/CMakeLists.txt
+
+    http://wiki.digital-forensic.org/index.php/Installation
+
+*   install python-hachoir-metadata
+
+    https://bitbucket.org/haypo/hachoir/wiki/Install
+
+*   checkout metahachoir into [dff-root-dir]/dff/modules/metadata/
+*   add `add_subdirectory (metahachoir)` to [dff-root-dir]/dff/modules/metadata/CMakeLists.txt
 *   build DFF
+
+    http://wiki.digital-forensic.org/index.php/Installation
 
 
 History
